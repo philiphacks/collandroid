@@ -1,0 +1,200 @@
+[% out.setContentType('Java'); %]
+package [%= package %];
+
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.telephony.SmsManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+import android.util.Log;
+import android.view.View;
+
+import java.util.HashMap;
+
+import be.pds.thesis.*;
+
+public class SMSComponent extends AndroidComponent {
+
+	private final String TAG = getClass().getName();
+	private HashMap<String, Object> properties;
+	private String phone;
+	private String message;
+	[% if (component.phoneField.isDefined() and component.phoneField.size() > 0) { %]
+		private [%= component.phoneField.type %] [%= component.phoneField %];
+	[% } %]
+	[% if (component.messageField.isDefined() and component.messageField.size() > 0) { %]
+		private [%= component.messageField.type %] [%= component.messageField %];
+	[% } %]
+	[% if (component.sendButton.isDefined() and component.sendButton.size() > 0) { %]
+		private [%= component.sendButton.type %] [%= component.sendButton %];
+	[% } %]
+	[% for (c in component.layoutcomponents) { %]
+	private [%= c.type %] [%= c %];
+	[% } %]
+	[% if (component.trigger.isDefined()) { %]
+	private AndroidComponent isTriggerOf;
+
+	public void isTriggerOf(AndroidComponent comp) {
+		this.isTriggerOf = comp;
+	}
+	[% } %]
+	[% if (component.isTriggerOf.isDefined()) { %]
+	private AndroidComponent trigger;
+
+	public void setTrigger(AndroidComponent comp) {
+		this.trigger = comp;
+	}
+	[% } %]
+
+	public SMSComponent(Activity a) {
+		super(a);
+		properties = new HashMap<String, Object>();
+		[% for (c in component.layoutcomponents) { %]
+		[%= c %] = ([%= c.type %]) this.parent.findViewById(R.id.[%= c.layoutID %]);
+		[% } %]
+		[% if (component.phoneField.isDefined() and component.phoneField.size() > 0) { %]
+			[%= component.phoneField %] = ([%= component.phoneField.type %]) this.parent.findViewById(R.id.[%= component.phoneField.layoutID %]);
+		[% } %]
+		[% if (component.messageField.isDefined() and component.messageField.size() > 0) { %]
+			[%= component.messageField %] = ([%= component.messageField.type %]) this.parent.findViewById(R.id.[%= component.messageField.layoutID %]);
+		[% } %]
+		[% if (component.sendButton.isDefined() and component.sendButton.size() > 0) { %]
+			[%= component.sendButton %] = ([%= component.sendButton.type %]) this.parent.findViewById(R.id.[%= component.sendButton.layoutID %]);
+			[%= component.sendButton %].setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					action(properties);
+				}
+			});
+		[% } %]
+		setupSMS();
+	}
+
+	[% for (c in component.layoutcomponents) { %]
+	public [%= c.type %] get[%= c %]() {
+		return [%= c %];
+	}
+	[% } %]
+
+	private void setupSMS() {
+	    [% if (component.phone.isDefined() and component.phone.size() > 0) { %]
+	    	properties.put("phone", "[%= component.phone %]");
+	    [% } %]
+	    [% if (component.message.isDefined() and component.message.size() > 0) { %]
+	    	properties.put("message", "[%= component.message %]");
+	    [% } %]
+	}
+
+	public void action(HashMap<String, Object> props) {
+		Log.i(TAG, "[SMSComponent] sending SMS");
+		if (properties.get("phone") != null) {
+			phone = (String)properties.get("phone");
+		}
+		if (props.get("phone") != null) {
+			phone = (String)props.get("phone");
+		}
+		[% if (component.phoneField.isDefined() and component.phoneField.size() > 0) { %]
+			String p = [%= component.phoneField %].getText().toString();
+			if (!p.equals("")) {
+				phone = p;
+			}
+		[% } %]
+
+		if (properties.get("message") != null) {
+			message = (String)properties.get("message");
+		}
+		if (props.get("message") != null) {
+			message = (String)props.get("message");
+			Log.i(TAG, "Found message '" + message + "'.");
+		}
+		[% if (component.messageField.isDefined() and component.messageField.size() > 0) { %]
+			String m = [%= component.messageField %].getText().toString();
+			if (!m.equals("")) {
+				message = m;
+			}
+		[% } %]
+
+		if (!phone.equals("") && !message.equals("")) {
+			Log.i(TAG, "Sending SMS to " + phone + " with message '" + message + "'.");
+			sendSMS(phone, message);
+		} else {
+			Toast.makeText(this.parent.getBaseContext(), "SMS not delivered. Please specify a phone number and a message", Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	public void onMessage(final String message) {
+		//void;
+	}
+
+	private void sendSMS(String phoneNumber, String message) {
+		String SENT = "SMS_SENT";
+		String DELIVERED = "SMS_DELIVERED";
+
+		PendingIntent sentPI = PendingIntent.getBroadcast(this.parent, 0,
+				new Intent(SENT), 0);
+		PendingIntent deliveredPI = PendingIntent.getBroadcast(this.parent, 0,
+				new Intent(DELIVERED), 0);
+
+		//---when the SMS has been sent---
+		this.parent.registerReceiver(new BroadcastReceiver() {
+
+			@Override
+			public void onReceive(Context arg0, Intent arg1) {
+				switch (getResultCode()) {
+					case Activity.RESULT_OK:
+						Toast.makeText(parent.getBaseContext(), "SMS sent",
+								Toast.LENGTH_SHORT).show();
+						break;
+					case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+						Toast.makeText(parent.getBaseContext(), "Generic failure", 
+								Toast.LENGTH_SHORT).show();
+					    break;
+					case SmsManager.RESULT_ERROR_NO_SERVICE:
+						Toast.makeText(parent.getBaseContext(), "No service", 
+					    		Toast.LENGTH_SHORT).show();
+					    break;
+					case SmsManager.RESULT_ERROR_NULL_PDU:
+						Toast.makeText(parent.getBaseContext(), "Null PDU", 
+								Toast.LENGTH_SHORT).show();
+					    break;
+					case SmsManager.RESULT_ERROR_RADIO_OFF:
+						Toast.makeText(parent.getBaseContext(), "Radio off", 
+								Toast.LENGTH_SHORT).show();
+					    break;
+					default:
+						Toast.makeText(parent.getBaseContext(), "Fail.", 
+								Toast.LENGTH_SHORT).show();
+						break;
+				}
+			}
+			
+		}, new IntentFilter(SENT));
+
+		//---when the SMS has been delivered---
+		this.parent.registerReceiver(new BroadcastReceiver() {
+
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				switch (getResultCode()) {
+					case Activity.RESULT_OK:
+						Toast.makeText(parent.getBaseContext(), "SMS delivered",
+								Toast.LENGTH_SHORT).show();
+						break;
+					case Activity.RESULT_CANCELED:
+						Toast.makeText(parent.getBaseContext(), "SMS not delivered",
+								Toast.LENGTH_SHORT).show();
+						break;
+				}
+			}
+			
+		}, new IntentFilter(DELIVERED));
+
+		SmsManager sms = SmsManager.getDefault();
+		sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
+	}
+}

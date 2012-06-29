@@ -1,0 +1,31 @@
+strict Model Android@1 {
+	abstract Node NamedElement {
+		name: String{id};
+	}
+
+	Node App : NamedElement {
+		appName: String;
+		content: List[*];
+		server: Server[1];
+	}
+
+	Node List : NamedElement {
+		items: Item[*];
+	}
+
+	Node Item : NamedElement {
+		text: String;
+	}
+
+	Node Server : NamedElement {
+		host: String;
+		port: int;
+		users: User[*];
+	}
+
+	Node User : NamedElement {
+		username: String;
+		password: String;
+		isAdmin: boolean;
+	}
+}

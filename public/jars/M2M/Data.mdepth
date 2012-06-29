@@ -1,0 +1,18 @@
+load "Component"
+
+Model Data imports Component {
+	
+	abstract Node Data {
+		name 		: String;
+		datatype 	: String;
+	}
+
+	Node RawData : Data {
+		value 		: String;
+	}
+
+	Node CompData : Data {
+		comp 		: LayoutComponent;
+	}
+
+}

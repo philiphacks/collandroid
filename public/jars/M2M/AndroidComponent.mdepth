@@ -1,0 +1,35 @@
+load "Component"
+load "AndroidAction"
+load "UIAction"
+
+Model AndroidComponent@2 imports Component, AndroidAction, UIAction {
+
+	// Android component for semantics and extensibility
+	Node AComp : Component {
+		gencodetemplate@1 		: String;
+
+		package@1 				: String;
+		layoutcomponents@2 		: Layout@0[*];
+
+		// Trigger can be another component (e.g. GeoComponent)
+		trigger 				: AComp@0;
+
+		// isTriggerOf defines the bi-directional connection with another component
+		// a component could be the trigger of another component or a layoutcomponent
+		isTriggerOf 			: AComp@0;
+		dependencies@1 			: DependencyComponent[*];
+		
+		// actions extend the action() method, so users can extend a component's functionality
+		actions 				: Action[*];
+		// uiactions are actions on a layoutcomponent
+		uiactions 				: UIAction[*];
+	}
+
+	Edge Trigger@(2)(AComp.trigger, AComp.isTriggerOf) {
+		actions 				: Action[*];
+	}
+
+	Node SComp : AComp {
+		childActivity	: String;
+	}
+}

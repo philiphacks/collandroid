@@ -1,0 +1,5 @@
+set DIR "collaborative/"
+load "samples/smsTest.mdepth"
+context myApp
+load EGL "templates/egl/codeGen.egl"
+quit

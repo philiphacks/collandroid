@@ -1,0 +1,7 @@
+@metamodel(name=VAndroid,file=model.mdepth)
+@model(potency=0)
+rule Item2ListItem
+	transform 	i 	: Source!Item
+	to 			li 	: Target!LList {
+		li.name = "MainActivity "+i.text;		
+	}

@@ -1,0 +1,40 @@
+<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Cabin:regular,regularitalic,bold">
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+
+<script src="/assets/jquery.jsPlumb-1.3.4-all-min.js?body=1" type="text/javascript"></script>
+<script src="/assets/jquery.hotkeys.js?body=1" type="text/javascript"></script>
+<script src="/assets/jquery.rightClick.js?body=1" type="text/javascript"></script>
+
+<script src="/assets/tometadepth.js?body=1" type="text/javascript"></script>
+<script src="/assets/meta.js?body=1" type="text/javascript"></script>
+<script src="/assets/model.js?body=1" type="text/javascript"></script>
+<script src="/assets/core.js?body=1" type="text/javascript"></script>
+<script>
+function getCode() {
+	return toMetadepth("VAndroid", "data", data, meta);
+}
+function exportApp(form) {
+	var code = getCode();
+	console.log(form);
+	form.elements["code"].value = code;
+}
+</script>
+<link href="/assets/core.css?body=1" media="all" rel="stylesheet" type="text/css" />
+<div id="__mainarea">
+    <div id="__tools">
+    	<form action="/apps" method="post">
+    		<input type="hidden" name="app[code]" value=""/>
+    		<input id="__exportApp" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" type="submit" value="Export App" onClick="exportApp(this.form);"/>
+    	</form>
+    </div>
+    <div id="__data">
+    </div>
+    <div id="__code">
+    </div>
+    <div id="__status">
+    </div>
+</div>
+

@@ -1,0 +1,6 @@
+set DIR "collaborative/"
+load "samples/targetEGL"
+context myApp
+load EGL "templates/egl/codeGenServer.egl"
+load EGL "templates/egl/codeGen.egl"
+quit

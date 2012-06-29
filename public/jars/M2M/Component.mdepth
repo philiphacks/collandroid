@@ -1,0 +1,38 @@
+Model Component@2 {
+	
+	abstract Node ComponentType {
+		ctype@1		: String[0..1]{id};
+	}
+
+	Node Component : ComponentType {
+		name			: String;
+	}
+
+	Node Layout : Component {
+		layoutID		: String;
+		text 			: String;
+		gravity			: String;
+		weight			: String;
+
+		paddingLeft 	: String;
+		paddingRight	: String;
+		paddingTop 		: String;
+		paddingBottom 	: String;
+		baselineAligned : String;
+		password 		: boolean;
+	}
+
+	// e.g. Button, EditText, TextView, ...
+	Node LayoutComponent@2 : Layout {
+		width			: String;
+		height			: String;
+	}
+
+	// Component for regular Java classes that have a dependency with an Android component/activity
+	Node DependencyComponent@1 { 
+		name 			: String;
+		gencodetemplate : String;
+		package 		: String;
+	}
+
+}

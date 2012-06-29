@@ -1,0 +1,121 @@
+load "Application"
+load "components/GlueComponents"
+
+// MANIFEST ------------------------------------------------------------------
+
+Manifest TestManifest {
+	ManifestDescription manDesc {
+		package = "be.pds.smsmessaging";
+		sdk = "8";
+		app_info = info;
+		permissions = [p1, p2];
+	}
+
+	AppInfo info {
+		activities = [a1];
+	}
+
+	Permission p1 {
+		name = "android.permission.SEND_SMS";
+	}
+
+	Permission p2 {
+		name = "android.permission.RECEIVE_SMS";
+	}
+
+	Activity a1 {
+		name = ".SMSMessagingActivity";
+		intent = i;
+	}
+
+	IntentFilter i { }
+}
+
+// PRESENTATION --------------------------------------------------------------
+
+Presentation TestPresentation {
+
+	LayoutDesc l1 {
+		name = "main";
+		layoutType = mainLayout;
+	}
+
+	LayoutType mainLayout {
+		name = "LinearLayout";
+		orientation = "vertical";
+
+		children = [viewNumber, editPhoneNr, viewMessage, editMessage, sendMessage];
+	}
+
+	TextView viewNumber {
+		layoutID = "viewNumber";
+		width = "fill_parent";
+		height = "wrap_content";
+		text = "Enter the phone number of recipient";
+	}
+
+	EditText editPhoneNr {
+		layoutID = "txtPhoneNo";
+		width = "fill_parent";
+		height = "wrap_content";
+		text = "";
+	}
+
+	TextView viewMessage {
+		layoutID = "viewMessage";
+		width = "fill_parent";
+		height = "wrap_content";
+		text = "Message";
+	}
+
+	EditText editMessage {
+		layoutID = "txtMessage";
+		width = "fill_parent";
+		height = "150px";
+		text = "";
+		gravity = "top";
+	}
+
+	Button sendMessage {
+		layoutID = "btnSendSMS";
+		width = "fill_parent";
+		height = "wrap_content";
+		text = "Send SMS";
+	}
+
+	Presentation pres {
+		activityname = "SMSMessagingActivity";
+		layout = l1;
+	}
+}
+
+// COMPONENTS ----------------------------------------------------------------
+
+GlueComponent myComp imports TestPresentation {
+	SMS mySms {
+		//layoutcomponents = [editPhoneNr, editMessage, sendMessage];
+		phoneField = editPhoneNr;
+		messageField = editMessage;
+		sendButton = sendMessage;
+	}
+}
+
+// ACTIVITY -------------------------------------------------------------------
+
+Activity TestActivity imports myComp, TestPresentation {
+	Activity act {
+		name = "SMSMessagingActivity";
+		main = false;
+		
+		content = [mySms];
+		presentation = pres;
+	}
+}
+
+// APPLICATION ----------------------------------------------------------------
+
+Application myApp imports myComp, TestManifest, TestActivity {
+	name = "SMSMessaging";
+	manifest = manDesc;
+	activities = [act];
+}

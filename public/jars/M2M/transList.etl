@@ -1,0 +1,13 @@
+rule List2List
+	transform	l 		: Source!`List`,
+	            x       : Source2!Server,
+	to 			list 	: Target!`List` {
+		list.childActivity = "MainChildActivity";
+	}
+
+rule ListItem2ListItem
+	transform 	i 	: Source!Item
+	to 			li 	: Target!ListItem {
+		li.text = i.text;
+		li.type = "MainChildActivity";
+	}

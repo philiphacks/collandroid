@@ -1,0 +1,38 @@
+exports.authenticate = function (info, connections, connection, fn) {
+	var authed = false;
+	[% for (u in session.users) { %]
+		if (info['user'] == '[%= u.username %]' && info['pass'] == '[%= u.password %]') {
+			console.log('Authenticated user!');
+			authed = true;
+			info['role'] = '[%= u.role %]';
+			fn(connection, connections, info, null);
+		}
+	[% } %]
+	if (!authed) {
+		fn(connection, connections, null, 'Wrong username/password');
+	}
+}
+
+exports.getConnectedUsers = function (connections, connection) {
+	for (var i = connections.length - 1; i >= 0; i--) {
+		if (connections[i]['enabled'] == 'true') {
+			var m = {};
+			m['message'] = {};
+			m['message']['type'] = "users";
+			m['message']['message'] = connections[i].user;
+			connection['connection'].send(JSON.stringify(m));
+		}
+	}
+}
+
+exports.newConnectedUser = function (connections, connection) {
+	for (var i = connections.length - 1; i >= 0; i--) {
+		//if (connections[i]['connection'] != connection['connection']) {
+			var m = {};
+			m['message'] = {};
+			m['message']['type'] = "users";
+			m['message']['message'] = connection.user;
+			connections[i]['connection'].send(JSON.stringify(m));
+		//}
+	}
+}

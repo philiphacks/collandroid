@@ -1,0 +1,21 @@
+load "Session"
+load "AndroidComponent"
+
+Model Server imports Session, AndroidComponent {
+
+	Node Server {
+		name 			: String;
+		host 			: String;
+		port 			: String;
+		components 		: SComp@0[*];
+		session 		: SessionObject;
+	}
+
+	abstract Node RegisterActivity { }
+
+	Node ChatActivity : RegisterActivity { }
+
+	Node DropboxActivity : RegisterActivity { }
+
+	Node ListActivity : RegisterActivity { }
+}

@@ -1,0 +1,22 @@
+load "components/smsComponent"
+load "components/geoComponent"
+load "components/timerComponent"
+load "components/twitterComponent"
+load "components/foursquareComponent"
+load "components/loginComponent"
+load "components/chatComponent"
+load "components/dropboxComponent"
+load "components/listComponent"
+
+AndroidComponent GlueComponent imports smsComponent,
+									   geoComponent,
+									   timerComponent,
+									   twitterComponent,
+									   foursquareComponent,
+									   loginComponent,
+									   chatComponent,
+									   dropboxComponent,
+									   listComponent
+{
+
+}

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="[%= manifest.package %]"
+      android:versionCode="[%= manifest.versionCode %]"
+      android:versionName="[%= manifest.versionName %]">
+    <uses-sdk android:minSdkVersion="[%= manifest.sdk %]" />
+
+	[% if (manifest.app_info.isDefined()) { %]
+		<application android:icon="[%= manifest.app_info.icon %]" android:label="[%= manifest.app_info.label %]">
+			[% for (a in manifest.app_info.activities) { %]
+				[% if (a.name == ".PrepareRequestTokenActivity") { %]
+				<activity android:name="[%= a.name %]" android:launchMode="singleTask">
+					<intent-filter>
+						<action android:name="android.intent.action.VIEW" />
+						<category android:name="android.intent.category.DEFAULT" />
+						<category android:name="android.intent.category.BROWSABLE" />
+						<data android:scheme="x-oauthflow-twitter" android:host="callback" />
+					</intent-filter>
+				</activity>
+				[% } else { %]
+				<activity android:name="[%= a.name %]"
+						  android:label="[%= a.label %]">
+					[% if (a.intent.isDefined()) { %]
+					<intent-filter>
+						<action android:name="[%= a.intent.action %]"/>
+						<category android:name="[%= a.intent.category %]"/>
+					</intent-filter>
+					[% } %]
+				</activity>
+				[% } %]
+			[% } %]
+			<activity
+			  android:name="com.dropbox.client2.android.AuthActivity"
+			  android:launchMode="singleTask"
+			  android:configChanges="orientation|keyboard">
+			  <intent-filter>
+			    <!-- Change this to be db- followed by your app key -->
+			    <data android:scheme="db-1yb8hkeirab3iq9" />
+			    <action android:name="android.intent.action.VIEW" />
+			    <category android:name="android.intent.category.BROWSABLE"/>
+			    <category android:name="android.intent.category.DEFAULT" />
+			  </intent-filter>
+			</activity>
+		</application>
+	[% } %]
+
+    [% if (manifest.permissions.isDefined() and manifest.permissions.size() > 0) { %]
+      [% for (p in manifest.permissions) { %]
+        <uses-permission android:name="[%= p.name %]"/>
+      [% } %]
+    [% } %]
+</manifest>

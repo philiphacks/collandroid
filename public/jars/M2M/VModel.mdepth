@@ -1,0 +1,30 @@
+Model VModel@2 {
+    abstract Node VObject {
+        templateHtml@1 : String = "${id}";
+    }
+
+	Node VBehaviour : VObject {
+		options@1 : String = "";
+	}
+    
+    Node VNode : VBehaviour {
+        ref : Node;
+        x: int;
+        y: int;
+    }
+
+    Node VEdge : VBehaviour {
+		// TODO: no viable alternative at input 'Edge'
+        //ref : Edge;
+    }
+
+    Node VWidget : VBehaviour { }
+}
+
+concept AVModel(&M, &A, &N) {
+	Model &M {
+	  Node &A{
+		&N : String;
+	  }
+	}
+}

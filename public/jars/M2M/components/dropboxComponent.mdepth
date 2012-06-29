@@ -1,0 +1,14 @@
+load "Component"
+
+AndroidComponent dropboxComponent {
+	
+	SComp Dropbox {
+		ctype = "dropbox";
+		gencodetemplate = "dropbox.egl";
+
+		folder 		: String;
+		key 		: String;
+		secret 		: String;
+	}
+
+}

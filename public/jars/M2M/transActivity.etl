@@ -1,0 +1,19 @@
+rule createActivity
+	transform 	app 	: Source!App
+	to 			act 	: Target!GenericActivity {
+		act.name = "MainActivity";
+		act.main = false;
+
+		for (c in app.content) {
+			act.content := c.equivalents();
+		}
+		act.presentation = pres2;
+		act.registerToServer = la;
+	}
+
+@lazy
+rule List2List
+	transform	l 		: Source!`List`
+	to 			list 	: Target!`List` {
+		list.childActivity = "MainChildActivity";
+	}

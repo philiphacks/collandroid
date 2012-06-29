@@ -1,0 +1,46 @@
+load "Component"
+
+Model Presentation imports Component {
+	
+	Node Presentation {
+		activityname 	: String;
+		layout 			: LayoutDesc[1];
+	}
+
+	Node LayoutDesc {
+		name			: String;
+		layoutType		: LayoutType[1];
+	}
+
+	// e.g. LinearLayout
+	Node LayoutType : Layout {
+		name 		: String;
+		namespace	: String="http://schemas.android.com/apk/res/android";
+		orientation	: String;
+		width		: String="fill_parent";
+		height		: String="fill_parent";
+
+		children 	: Layout@0[*];
+	}
+
+	Node Button : LayoutComponent { }
+
+	Node EditText : LayoutComponent {
+		requestFocus	: boolean;
+	}
+
+	Node TextView : LayoutComponent { }
+
+	Node ScrollView : Layout {
+		width 		: String;
+		height 		: String;
+		weight 		: String;
+		components 	: Layout@0[*];
+	}
+
+	Node ListView : Layout {
+		width		: String;
+		height		: String;
+		weight		: String;
+	}
+}

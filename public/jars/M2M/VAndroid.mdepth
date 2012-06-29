@@ -1,0 +1,41 @@
+load "Android"
+load "VWidgets"
+load "VModel"
+
+VModel VAndroid imports Android, VWidgets {
+	VNode VApp : Draggable, Connectable {
+        refApp: App{ref};
+        templateHtml = "<span>${children.refApp.id}</span>";
+    }
+
+    VNode VList : Draggable, Connectable {
+    	refList: List{ref};
+    	templateHtml = "<span>${children.refList.id}</span>";
+    }
+
+	VNode VItem : Draggable, Connectable {
+    	refItem: Item{ref};
+    	templateHtml = "<span>${children.refItem.id}</span>";
+    }
+
+    VNode VServer : Draggable, Connectable {
+        refServer: Server{ref};
+        templateHtml = "<span>${children.refServer.id}</span>";
+    }
+
+    VNode VUser : Draggable, Connectable {
+    	refUser: User{ref};
+    	templateHtml = "<span>${children.refUser.id}</span>";
+    }
+}
+
+VAndroid ide {
+	VNewItem newApp{text="New app";ref="VApp";}
+    VNewItem newList{text="New list";ref="VList";}
+    VNewItem newItem{text="New item";ref="VItem";}
+    VNewItem newServer{text="New server";ref="VServer";}
+    VNewItem newUser{text="New user";ref="VUser";}
+    VDelete delete{text="Delete";}
+    VDownload download{text="Download";}
+    VProperties objinfo{}
+}

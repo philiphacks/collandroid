@@ -1,0 +1,8 @@
+set DIR "M2M/"
+load "model"
+load "Target2"
+context data
+load ETL "transList.etl" myComp
+context myComp
+dump
+quit

@@ -1,0 +1,12 @@
+[%
+	var app : App := App.allInstances().first();
+
+	// generate Android model
+	var t : Template := TemplateFactory.load(URI+DIR+'genApplication.egl');
+	if (app.isDefined()) {
+		t.populate('app', app);
+		t.process();
+		t.generate(URI+DIR+'targetEGL.mdepth');
+	}
+
+%]

@@ -1,0 +1,68 @@
+load "VAndroid"
+
+VAndroid data {
+	App App1 {
+		appName = "questionnaire";
+		content = [List1];
+		server = [Server1];
+	}
+	VApp VApp1 {
+		refApp = App1;
+		y = 60;
+		x = 94;
+	}
+	List List1 {
+		items = [Item1,Item2];
+	}
+	VList VList1 {
+		refList = List1;
+		y = 67;
+		x = 424;
+	}
+	Server Server1 {
+		port = 3000;
+		users = [User1,User2];
+		host = "10.0.2.2";
+	}
+	VServer VServer1 {
+		refServer = Server1;
+		y = 219;
+		x = 149;
+	}
+	User User1 {
+		username = "philip";
+		isAdmin = true;
+		password = "foobar";
+	}
+	VUser VUser1 {
+		refUser = User1;
+		y = 371;
+		x = 290;
+	}
+	Item Item1 {
+		text = "How many stories did Shakespeare write?";
+	}
+	VItem VItem1 {
+		refItem = Item1;
+		y = 9;
+		x = 452;
+	}
+	Item Item2 {
+		text = "When was the last time Napoleon conquered a country?";
+	}
+	VItem VItem2 {
+		refItem = Item2;
+		y = 114;
+		x = 453;
+	}
+	User User2 {
+		username = "student1";
+		isAdmin = false;
+		password = "student1";
+	}
+	VUser VUser2 {
+		refUser = User2;
+		y = 396;
+		x = 84;
+	}
+}

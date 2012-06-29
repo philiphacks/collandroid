@@ -1,0 +1,4 @@
+set DIR "collaborative/"
+load "samples/timerTest"
+context myApp
+load EGL "templates/egl/codeGen.egl"

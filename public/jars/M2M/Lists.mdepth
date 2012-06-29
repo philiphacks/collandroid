@@ -1,0 +1,15 @@
+Model Lists {
+  abstract Node NamedElement {
+     name : String;
+  }
+
+  Node LList : NamedElement {
+     items : Item[*];
+     sublists : LList[*];
+  }
+  
+  Node Item : NamedElement {
+  } 
+}
+
+Lists Result{}

@@ -1,0 +1,38 @@
+Model Blocks {
+  Node Block {
+    name : String;
+    size : int;
+    bars : Bar[*];
+  }
+
+  Node Bar {
+    weight : double;
+  }
+}
+
+Model Lists {
+  abstract Node NamedElement {
+     name : String;
+  }
+
+  Node LList : NamedElement {
+     items : Item[*];
+     sublists : LList[*];
+  }
+  
+  Node Item : NamedElement {
+  } 
+}
+
+Blocks SampleBlocks {
+  Block bl0{
+    name = "block 0";
+    size = 4;
+    bars = [b0, b1];
+  }
+  
+  Bar b0 { weight = 4.5; }
+  Bar b1 { weight = 3; }
+}
+
+Lists Result{}

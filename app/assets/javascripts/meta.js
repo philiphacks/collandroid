@@ -1,0 +1,37 @@
+ 
+var meta = {
+Button: {id: "Button", type: "VBehaviour", potency: 1, children: {templateHtml: {potency: 0, max: 1, value: "${id}"}, options: {potency: 0, max: 1, value: ""}}}, 
+Creator: {id: "Creator", type: "VBehaviour", potency: 1, children: {templateHtml: {potency: 0, max: 1, value: "${id}"}, options: {potency: 0, max: 1, value: ""}}}, 
+Eraser: {id: "Eraser", type: "VBehaviour", potency: 1, children: {templateHtml: {potency: 0, max: 1, value: "${id}"}, options: {potency: 0, max: 1, value: ""}}}, 
+Downloader: {id: "Downloader", type: "VBehaviour", potency: 1, children: {templateHtml: {potency: 0, max: 1, value: "${id}"}, options: {potency: 0, max: 1, value: ""}}}, 
+Draggable: {id: "Draggable", type: "VBehaviour", potency: 1, children: {templateHtml: {potency: 0, max: 1, value: "${id}"}, options: {potency: 0, max: 1, value: "{zIndex:10}"}}}, 
+Connectable: {id: "Connectable", type: "VBehaviour", potency: 1, children: {templateHtml: {potency: 0, max: 1, value: "${id}"}, options: {potency: 0, max: 1, value: ""}}}, 
+Resizable: {id: "Resizable", type: "VBehaviour", potency: 1, children: {templateHtml: {potency: 0, max: 1, value: "${id}"}, options: {potency: 0, max: 1, value: ""}}}, 
+Properties: {id: "Properties", type: "VBehaviour", potency: 1, children: {templateHtml: {potency: 0, max: 1, value: "${id}"}, options: {potency: 0, max: 1, value: ""}}}, 
+VApp: {id: "VApp", type: "VNode", inherit: ["Draggable", "Connectable"], potency: 1, children: {refApp: {potency: 1, max: 1, type: "App"}, templateHtml: {potency: 0, max: 1, value: "<span>${children.refApp.id}</span>"}, y: {potency: 1, max: 1, type: "IntType"}, x: {potency: 1, max: 1, type: "IntType"}, options: {potency: 0, max: 1, value: ""}}}, 
+App: {id: "App", type: "Node", inherit: ["NamedElement"], potency: 1, children: {content: {potency: 1, max: -1, type: "List"}, server: {potency: 1, max: 1, type: "Server"}}}, 
+VList: {id: "VList", type: "VNode", inherit: ["Draggable", "Connectable"], potency: 1, children: {templateHtml: {potency: 0, max: 1, value: "<span>${children.refList.id}</span>"}, refList: {potency: 1, max: 1, type: "List"}, y: {potency: 1, max: 1, type: "IntType"}, x: {potency: 1, max: 1, type: "IntType"}, options: {potency: 0, max: 1, value: ""}}}, 
+List: {id: "List", type: "Node", inherit: ["NamedElement"], potency: 1, children: {items: {potency: 1, max: -1, type: "Item"}}}, 
+VItem: {id: "VItem", type: "VNode", inherit: ["Draggable", "Connectable"], potency: 1, children: {templateHtml: {potency: 0, max: 1, value: "<span>${children.refItem.id}</span>"}, refItem: {potency: 1, max: 1, type: "Item"}, y: {potency: 1, max: 1, type: "IntType"}, x: {potency: 1, max: 1, type: "IntType"}, options: {potency: 0, max: 1, value: ""}}}, 
+Item: {id: "Item", type: "Node", inherit: ["NamedElement"], potency: 1, children: {text: {potency: 1, max: 1, type: "StringType"}}}, 
+VServer: {id: "VServer", type: "VNode", inherit: ["Draggable", "Connectable"], potency: 1, children: {refServer: {potency: 1, max: 1, type: "Server"}, templateHtml: {potency: 0, max: 1, value: "<span>${children.refServer.id}</span>"}, y: {potency: 1, max: 1, type: "IntType"}, x: {potency: 1, max: 1, type: "IntType"}, options: {potency: 0, max: 1, value: ""}}}, 
+Server: {id: "Server", type: "Node", inherit: ["NamedElement"], potency: 1, children: {port: {potency: 1, max: 1, type: "IntType"}, users: {potency: 1, max: -1, type: "User"}, host: {potency: 1, max: 1, type: "StringType"}}}, 
+VUser: {id: "VUser", type: "VNode", inherit: ["Draggable", "Connectable"], potency: 1, children: {refUser: {potency: 1, max: 1, type: "User"}, templateHtml: {potency: 0, max: 1, value: "<span>${children.refUser.id}</span>"}, y: {potency: 1, max: 1, type: "IntType"}, x: {potency: 1, max: 1, type: "IntType"}, options: {potency: 0, max: 1, value: ""}}}, 
+User: {id: "User", type: "Node", inherit: ["NamedElement"], potency: 1, children: {username: {potency: 1, max: 1, type: "StringType"}, isAdmin: {potency: 1, max: 1, type: "BooleanType"}, password: {potency: 1, max: 1, type: "StringType"}}}, 
+VButton: {id: "VButton", type: "VWidget", inherit: ["Button"], potency: 1, children: {text: {potency: 1, max: 1, type: "StringType"}, templateHtml: {potency: 0, max: 1, value: "${children.text.value}"}, options: {potency: 0, max: 1, value: ""}}}, 
+VNewItem: {id: "VNewItem", type: "VWidget", inherit: ["VButton", "Creator", "Button"], potency: 1, children: {ref: {potency: 1, max: 1, type: "StringType"}, templateHtml: {potency: 0, max: 1, value: "${children.text.value}"}, options: {potency: 0, max: 1, value: ""}}}, 
+VDelete: {id: "VDelete", type: "VWidget", inherit: ["Eraser", "VButton", "Button"], potency: 1, children: {templateHtml: {potency: 0, max: 1, value: "${children.text.value}"}, options: {potency: 0, max: 1, value: ""}}}, 
+VProperties: {id: "VProperties", type: "VWidget", inherit: ["Properties"], potency: 1, children: {templateHtml: {potency: 0, max: 1, value: "&nbsp;"}, options: {potency: 0, max: 1, value: ""}}}, 
+VDownload: {id: "VDownload", type: "VWidget", inherit: ["Downloader", "VButton", "Button"], potency: 1, children: {templateHtml: {potency: 0, max: 1, value: "${children.text.value}"}, options: {potency: 0, max: 1, value: ""}}}};
+
+var mappings = {
+VApp: "refApp", 
+VList: "refList", 
+App: "VApp", 
+VItem: "refItem", 
+List: "VList", 
+VServer: "refServer", 
+Item: "VItem", 
+VUser: "refUser", 
+Server: "VServer", 
+User: "VUser"};

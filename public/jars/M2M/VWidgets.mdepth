@@ -1,0 +1,44 @@
+load "VModel"
+
+VModel VWidgets {
+    VBehaviour Button {
+    }
+    VBehaviour Creator {
+    }
+    VBehaviour Eraser {
+    }
+    VBehaviour Downloader {
+    }
+    VBehaviour Draggable {
+		options = "{zIndex:10}";
+    }
+    VBehaviour Connectable {
+    }
+    VBehaviour Resizable {
+    }
+
+    VWidget VButton : Button {
+        text : String;
+        templateHtml = "${children.text.value}";
+    }
+
+    VWidget VNewItem : VButton, Creator {
+        ref : String;
+        templateHtml = "${children.text.value}";
+    }
+    
+    VWidget VDelete : VButton, Eraser {
+        templateHtml = "${children.text.value}";
+    }
+    
+    VBehaviour Properties {
+    }
+    
+    VWidget VProperties : Properties {
+		templateHtml = "&nbsp;";
+    }
+    
+    VWidget VDownload : VButton, Downloader {
+		templateHtml = "${children.text.value}";
+    }
+}

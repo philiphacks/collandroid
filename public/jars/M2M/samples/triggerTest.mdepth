@@ -1,0 +1,141 @@
+load "Application"
+load "components/glueComponents"
+
+// MANIFEST ------------------------------------------------------------------
+
+Manifest TestManifest {
+	ManifestDescription manDesc {
+		package = "be.pds.triggertest";
+		sdk = "8";
+		app_info = info;
+		permissions = [p1, p2, p3];
+	}
+
+	AppInfo info {
+		activities = [a1];
+	}
+
+	Permission p1 {
+		name = "android.permission.SEND_SMS";
+	}
+
+	Permission p2 {
+		name = "android.permission.RECEIVE_SMS";
+	}
+
+	Permission p3 {
+		name = "android.permission.ACCESS_FINE_LOCATION";
+	}
+
+	Activity a1 {
+		name = ".GeoSMSActivity";
+		intent = i;
+	}
+
+	IntentFilter i { }
+}
+
+// PRESENTATION --------------------------------------------------------------
+
+Presentation TestPresentation {
+
+	LayoutDesc l1 {
+		name = "main";
+		layoutType = mainType;
+	}
+
+	LayoutType mainType {
+		name = "LinearLayout";
+		orientation = "vertical";
+
+		children = [viewNumber, editPhoneNr, viewMessage, editMessage, sendMessage];
+	}
+
+	TextView viewNumber {
+		layoutID = "viewNumber";
+		width = "fill_parent";
+		height = "wrap_content";
+		text = "Enter the phone number of recipient";
+	}
+
+	EditText editPhoneNr {
+		layoutID = "txtPhoneNo";
+		width = "fill_parent";
+		height = "wrap_content";
+		text = "";
+	}
+
+	TextView viewMessage {
+		layoutID = "viewMessage";
+		width = "fill_parent";
+		height = "wrap_content";
+		text = "Message";
+	}
+
+	EditText editMessage {
+		layoutID = "txtMessage";
+		width = "fill_parent";
+		height = "150px";
+		text = "";
+		gravity = "top";
+	}
+
+	Button sendMessage {
+		layoutID = "btnSendSMS";
+		width = "fill_parent";
+		height = "wrap_content";
+		text = "Send SMS";
+	}
+
+	Presentation pres {
+		activityname = "GeoSMSActivity";
+		layout = l1;
+	}
+}
+
+// ACTIONS AND DATA -----------------------------------------------------------
+
+AndroidAction TestActions {
+	CallComponentAction cca { 
+		properties = [];
+	}
+}
+
+// COMPONENTS -----------------------------------------------------------------
+
+GlueComponent myComp imports TestPresentation, TestActions {
+	SMS mySms {
+		phone = "5556";
+		phoneField = editPhoneNr;
+		messageField = editMessage;
+		sendButton = sendMessage;
+	}
+
+	Geo myGeo {
+		layoutcomponents = [];
+	}
+
+	Trigger t1(mySms, myGeo) {
+		actions = [cca];
+	}
+}
+
+// ACTIVITIES -----------------------------------------------------------------
+
+Activity TestActivity imports myComp, TestPresentation {
+	Activity act {
+		name = "GeoSMSActivity";
+		main = false;
+
+		content = [mySms, myGeo];
+		presentation = pres;
+	}
+}
+
+// APPLICATION ----------------------------------------------------------------
+
+Application myApp imports TestManifest, TestActivity {
+	name = "TriggerTest";
+	manifest = manDesc;
+	activities = [act];
+}

@@ -1,0 +1,16 @@
+load "Component"
+
+AndroidComponent listComponent {
+	
+	SComp List {
+		ctype = "list";
+		gencodetemplate = "list.egl";
+
+		items : ListItem[*];
+	}
+	
+	Node ListItem {
+		text : String;
+		type : String;
+	}
+}

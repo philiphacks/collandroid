@@ -1,0 +1,17 @@
+@metamodel(name=Blocks,file=Sample.mdepth)
+@model(potency=0)
+rule Block2List 
+  transform bl : Source!Block
+  to        l  : Target!LList {
+     l.name := bl.name+' (size:'+bl.size+')';
+     for (ba in bl.bars) {
+       l.items := ba.equivalents();
+     } 
+  }
+
+ @lazy 
+ rule Bar2Item
+  transform b : Source!Bar
+  to        i  : Target!Item {
+     i.name := 'weight: '+b.weight;
+  }

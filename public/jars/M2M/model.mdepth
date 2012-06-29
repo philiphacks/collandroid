@@ -1,0 +1,66 @@
+load "VAndroid"
+VAndroid data {
+	App App1 {
+		content = [List1];
+		server = [Server1];
+	}
+	VApp VApp1 {
+		refApp = App1;
+		y = 67;
+		x = 130;
+	}
+	List List1 {
+		items = [Item1,Item2];
+	}
+	VList VList1 {
+		refList = List1;
+		y = 90;
+		x = 384;
+	}
+	Item Item1 {
+		text = "How much is 10 plus 2?";
+	}
+	VItem VItem1 {
+		refItem = Item1;
+		y = 37;
+		x = 555;
+	}
+	Item Item2 {
+		text = "Hello";
+	}
+	VItem VItem2 {
+		refItem = Item2;
+		y = 169;
+		x = 554;
+	}
+	Server Server1 {
+		port = 3000;
+		users = [User1,User2];
+		host = "10.0.2.2";
+	}
+	VServer VServer1 {
+		refServer = Server1;
+		y = 218;
+		x = 217;
+	}
+	User User1 {
+		username = "phil";
+		isAdmin = false;
+		password = "foobar";
+	}
+	VUser VUser1 {
+		refUser = User1;
+		y = 350;
+		x = 62;
+	}
+	User User2 {
+		username = "juan";
+		isAdmin = false;
+		password = "foobar";
+	}
+	VUser VUser2 {
+		refUser = User2;
+		y = 361;
+		x = 410;
+	}
+}

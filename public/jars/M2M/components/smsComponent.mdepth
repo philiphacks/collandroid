@@ -1,0 +1,17 @@
+load "Component"
+
+AndroidComponent smsComponent imports Component {
+	
+	AComp SMS {
+		package = "be.pds.sms";
+		gencodetemplate = "sms.egl";
+		ctype = "sms";
+
+		phone 			: String;
+		message 		: String;
+		phoneField 		: Layout@0[1];
+		messageField 	: Layout@0[1];
+		sendButton 		: Layout@0[1];
+	}
+
+}
